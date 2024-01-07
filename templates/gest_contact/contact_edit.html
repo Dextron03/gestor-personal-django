@@ -1,0 +1,14 @@
+{% extends "../layouts/base.html" %}
+{% block title %}editar contacto{% endblock title %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <form action="{% url 'edit_contact' id=id %}" method="POST"> {% comment %}PUT: Metodo para actulizar valores{% endcomment %}
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" class="btn btn-primary" value="Enviar">
+    </form>
+</div>
+
+{% endblock content %}

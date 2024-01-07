@@ -1,0 +1,25 @@
+{% extends "../layouts/base.html" %}
+
+{% block title %} contacto | {{info.name}} {% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-4">
+            <img src="https://placekitten.com/200/200" class="img-fluid rounded-circle" alt="Foto de perfil">
+            {% comment %} todo: Agregar imagenes al modelo {% endcomment %}
+        </div>
+        <div class="col-md-8">
+            <h2>{{info.name}} {{info.surnames}}</h2>
+            <p class="text-muted">Fue agregado el {{info.date}}</p>
+            <p><strong>Correo Electrónico:</strong> {{info.email}}</p>
+            <p><strong>Teléfono:</strong> {{info.cel}}</p>
+            <p class="card-text"><strong>Nota:</strong> {{info.note}}</p>
+
+            <a href="#" class="btn btn-danger"><i class="bi bi-trash-fill"></i></a>
+            | <a href="{% url 'edit_contact' info.id %}" class="btn btn-primary"><i class="bi bi-pencil-square"></i></a></td>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+    
