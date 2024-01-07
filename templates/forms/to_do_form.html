@@ -1,0 +1,14 @@
+{% extends "../layouts/base.html" %}
+{% block title %}new tasks{% endblock title %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <form action="{% url 'todo' %}" method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" value="Enviar">
+    </form>
+</div>
+
+{% endblock content %}
