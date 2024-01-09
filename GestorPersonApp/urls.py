@@ -9,5 +9,6 @@ urlpatterns = [
     path("", views.home, name="home"),
     path("gestcontac/", include("gest_contact.urls")),
     path("gesttask/", include("org_tarea.urls")),
-    
-]   + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

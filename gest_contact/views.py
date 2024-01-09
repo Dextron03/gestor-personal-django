@@ -22,10 +22,11 @@ def edit_contact(request, id):
         
     
     if request.method == "POST":
-        form_edit_contact = form.ContactForm(request.POST, instance= contact_edit)
+        form_edit_contact = form.ContactForm(request.POST, request.FILES, instance=contact_edit)
         if form_edit_contact.is_valid():
             form_edit_contact.save()
-        messages.success(request, "El contacto a sido actulizado correctamente.")
+            messages.success(request, "El contacto a sido actulizado correctamente.")
+            return redirect("home_contact")
         return render(request, "gest_contact/contact_edit.html", {"form":form_edit_contact, "id":id})
 
 def delete_contact(request, id):
@@ -40,16 +41,16 @@ def delete_contact(request, id):
 
 def contact_form(request):
     if request.method == "GET":
-        form_contact = form.ContactForm(request.GET)
+        form_contact = form.ContactForm()
         return render(request, "gest_contact/contact_form.html", {"form":form_contact})
     
     if request.method == "POST":
-        form_contact = form.ContactForm(request.POST)
+        form_contact = form.ContactForm(request.POST, request.FILES)
         if form_contact.is_valid():
             form_contact.save()
-            messages.success(request, format_html(f"El contacto <strong>{request.POST["name"]}</strong> se a creado exitosamente."))
-            return render(request, "gest_contact/contact_form.html", {"form":form_contact})
+            messages.success(request, format_html(f"El contacto <strong>{form_contact.cleaned_data['name']}</strong> se ha creado exitosamente."))
+            return render(request, "gest_contact/contact_form.html", {"form": form_contact})
         else:
-            return render(request, "gest_contact/contact_form.html", {"form":form_contact})
+            return render(request, "gest_contact/contact_form.html", {"form": form_contact})
     
 

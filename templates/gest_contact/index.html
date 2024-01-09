@@ -30,10 +30,10 @@
                     {% endfor %}
             {% endif %}
 
-            <a href="{% url 'GestForm' %}"><i class="bi bi-plus-circle-fill"></i> Añadir contacto</a> | <a href="{% url 'home_contact' %}"> <i class="bi bi-person-circle"></i>Ver mas</a>
+            <a href="{% url 'add_contact' %}"><i class="bi bi-plus-circle-fill"></i> Añadir contacto</a> | <a href="{% url 'home_contact' %}"> <i class="bi bi-person-circle"></i>Ver mas</a>
             {% if info|length == 0 %}
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    No cuentas con contactos agregados. <strong>Se mas sociable xd!</strong>
+                    No cuentas con contactos agregados.
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
 

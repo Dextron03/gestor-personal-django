@@ -10,7 +10,7 @@
                 {% endfor %}
         {% endif %}
         
-        <form action="{% url 'edit_contact' id=id %}" method="POST"> 
+        <form action="{% url 'edit_contact' id=id %}" method="POST" enctype="multipart/form-data"> 
             {% csrf_token %}
             {{form.as_p}}
             <input type="submit" class="btn btn-primary" value="Enviar">
