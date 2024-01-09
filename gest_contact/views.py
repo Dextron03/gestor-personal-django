@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from . import form
 from . import models
-
+from django.contrib import messages
+from django.utils.html import format_html
 # Create your views here.
 def index(request):
     # ! busca el elemento que fue escrito en la barra de navegacion
@@ -24,8 +25,18 @@ def edit_contact(request, id):
         form_edit_contact = form.ContactForm(request.POST, instance= contact_edit)
         if form_edit_contact.is_valid():
             form_edit_contact.save()
-            return render(request, "gest_contact/contact_edit.html", {"form":form_edit_contact, "id":id})
+        messages.success(request, "El contacto a sido actulizado correctamente.")
+        return render(request, "gest_contact/contact_edit.html", {"form":form_edit_contact, "id":id})
 
+def delete_contact(request, id):
+    contacts = models.Contact.objects.get(id = id)
+    if request.method == "GET":
+        contacts.delete()
+        messages.success(request, "El contacto a sido eliminado")
+        return redirect("home_contact")
+    return render(request, "gest_contact/index.html", {"info":contacts})
+    
+    
 
 def contact_form(request):
     if request.method == "GET":
@@ -36,7 +47,9 @@ def contact_form(request):
         form_contact = form.ContactForm(request.POST)
         if form_contact.is_valid():
             form_contact.save()
+            messages.success(request, format_html(f"El contacto <strong>{request.POST["name"]}</strong> se a creado exitosamente."))
             return render(request, "gest_contact/contact_form.html", {"form":form_contact})
         else:
-            return render(request, "error.html", {})
+            return render(request, "gest_contact/contact_form.html", {"form":form_contact})
+    
 
