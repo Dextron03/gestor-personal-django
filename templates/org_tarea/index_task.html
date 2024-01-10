@@ -1,0 +1,66 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Home | TODO{% endblock title %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+
+            <!-- Barra de búsqueda -->
+            <h2 class="mb-4">Buscar Tareas </h2>
+            <form action="{% url 'home_tasks' %}" method="get">
+                <div class="input-group mb-3">
+                    <input type="search" name="search" class="form-control" style="width: 550px;" placeholder="Buscar tareas">
+                    <div class="input-group-append">
+                        <input type="submit" class="btn btn-outline-secondary" value="Buscar">
+                    </div>
+                </div>
+            </form>
+
+            {% comment %} Botón para agregar más tareas {% endcomment %}
+            <a href="{% url 'add_task' %}" class="btn btn-success" style="width: 640px;">Agregar más tareas</a>
+
+            {% comment %} Mensajes de éxito o advertencia {% endcomment %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div {% if message.tags %} class="alert alert-success alert-dismissible fade show" role="alert" {% endif %}>{{ message }} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
+                {% endfor %}
+            {% endif %}
+
+            {% comment %} Listado de tareas  {% endcomment %}
+            <h2 class="mt-4">Tareas <a href="{% url 'home_tasks' %}"><i class="bi bi-list-task"></i></a></h2>
+            {% if tasks|length == 0 %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>¿Aún no has creado tareas?</strong> Haz click <a href="{% url 'add_task' %}" target="_blank" rel="noopener noreferrer">aquí</a>.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% else %}
+                {% for task in tasks %}
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <h5 class="card-title">{{task.title}}</h5>
+                            <p class="card-text">{{task.description}}</p>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Priority: {{task.priority}}</li>
+                                
+                                {% comment %} Verificar si hay hora de finalización {% endcomment %}
+                                {% if task.hour_completion == null %} <li class="list-group-item"></li> {% else %}<li class="list-group-item">Hora Determinada: {{task.hour_completion}}</li>{% endif %}
+                                
+                                {% comment %} Verificar si hay fecha de finalización  {% endcomment %}
+                                {% if task.date_completion == null %} {% else %}<li class="list-group-item">Fecha Determinada: {{task.date_completion}}</li> {% endif %}
+                            </ul>
+                            <div class="mt-3">
+                                <a href="{% url 'edit_task' task.id %}" class="btn btn-primary "><i class="bi bi-pen-fill"></i></a>
+                                <a href="{% url 'delete_task' task.id %}" class="btn btn-danger"><i class="bi bi-calendar-x-fill"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
