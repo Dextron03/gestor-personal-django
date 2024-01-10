@@ -1,0 +1,20 @@
+{% extends "../layouts/base.html" %}
+{% block title %}editar contacto{% endblock title %}
+
+{% block content %}
+
+    <div class="container mt-4">
+        {% if messages %}
+                {% for message in messages %}
+                    <div {% if message.tags %} class="alert alert-success"  role="alert" {% endif %}>{{ message }}</div>
+                {% endfor %}
+        {% endif %}
+        
+        <form action="{% url 'edit_contact' id=id %}" method="POST" enctype="multipart/form-data"> 
+            {% csrf_token %}
+            {{form.as_p}}
+            <input type="submit" class="btn btn-primary" value="Enviar">
+        </form>
+    </div>
+
+{% endblock content %}

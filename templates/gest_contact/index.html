@@ -1,0 +1,57 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Contactos{% endblock title %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Lista de Contactos</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Correo Electrónico</th>
+                <th scope="col">Teléfono</th>
+                <th scope="col">Mas Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <div class="input-group mb-3">
+                <form action="{% url 'home_contact' %}" method="get">
+                    <input type="text" name='search' class="form-control" placeholder="Buscar" aria-label="Buscar" aria-describedby="button-addon2">
+                    <div class="input-group-append">
+                        <input class="btn btn-outline-secondary" type="submit" id="button-addon2" value="Buscar">
+                    </div>
+                </form>
+            </div>
+
+            {% if messages %}
+                    {% for message in messages %}
+                        <div {% if message.tags %} class="alert alert-success alert-dismissible fade show" role="alert" {% endif %}>{{ message }} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
+                    {% endfor %}
+            {% endif %}
+
+            <a href="{% url 'add_contact' %}"><i class="bi bi-plus-circle-fill"></i> Añadir contacto</a> | <a href="{% url 'home_contact' %}"> <i class="bi bi-person-circle"></i>Ver mas</a>
+            {% if info|length == 0 %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    No cuentas con contactos agregados.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+            {% else %}
+                {% for inf in info %}
+                    <tr>
+                        <td>{{inf.name}}</td>
+                        <td>{{inf.email}}</td>
+                        <td>{{inf.cel}}</td>
+                        <td><a href="{% url 'detailed' inf.id %}" class="btn btn-info"><i class="bi bi-info-circle-fill"></i></a>
+                             | <a href="{% url 'delete_contact' inf.id %}" class="btn btn-danger"><i class="bi bi-trash-fill"></i></a>
+                             | <a href="{% url 'edit_contact' inf.id %}" class="btn btn-primary"><i class="bi bi-pencil-square"></i></a></td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            {% comment %} Fin del bucle de contactos  {% endcomment %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock content %}

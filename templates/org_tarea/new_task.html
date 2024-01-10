@@ -1,0 +1,15 @@
+{% extends "../layouts/base.html" %}
+{% block title %}new tasks{% endblock title %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <form action="{% url 'add_task' %}" method="post">
+        <h2 class="mb-4">Asigna una nuvea tarea </h2>
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" class="btn btn-success" value="Enviar">
+    </form>
+</div>
+
+{% endblock content %}
